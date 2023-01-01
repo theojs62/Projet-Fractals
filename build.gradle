@@ -1,0 +1,44 @@
+/*
+ * La configuration de Gradle pour compiler et exécuter le projet.
+ */
+
+// Les plugins permettant à Gradle de gérer le projet en tant qu'application.
+plugins {
+    id 'java'
+    id 'application'
+}
+
+// La version du langage Java utilisée dans le projet.
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+// Les dépôts d'où les dépendances doivent être téléchargées.
+repositories {
+    mavenCentral()
+}
+
+// Les dépendances nécessaires au fonctionnement de l'application.
+dependencies {
+    implementation group: 'fr.cril.cli', name: 'fr.cril.cli', version: '1.0.0'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.6.0'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.6.0'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.6.0'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.6.0'
+}
+
+// Le nom de la classe contenant la méthode "main".
+application {
+    mainClass = 'fr.univartois.butinfo.fractals.Fractals'
+}
+
+// La configuration pour la création d'un JAR exécutable.
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.univartois.butinfo.fractals.Fractals'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
